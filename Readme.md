@@ -3,14 +3,6 @@
 - you need AWS CLI installed
 - you need AWS SAM CLI installed
 
-### Modify your parameters
-
-Look at the following files and edit them according to your setup:
-
-- localsettings.txt
-- StateMachine.json
-- template.yaml
-
 ### Commands used:
 
 - Start the local Lambda endpoint // you can skip the host and port if you want default (localhost) or you can edit IP and port to your needs
@@ -18,7 +10,7 @@ Look at the following files and edit them according to your setup:
 sam local start-lambda
 ```
 
-- Start docker container for local Step Functions, on first execution it should automatically pull the needed docker image // make sure you edit localsettings.txt to suit your needs (IP)
+- Start docker container for local Step Functions, on first execution it should automatically pull the needed docker image
 ```bash
 docker run -p 8083:8083 amazon/aws-stepfunctions-local
 ``` 
