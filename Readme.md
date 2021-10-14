@@ -3,7 +3,7 @@
 - you need AWS CLI installed
 - you need AWS SAM CLI installed
 
-### Commands used:
+### Commands to run Step Funcitons locally:
 
 - Start the local Lambda endpoint // you can skip the host and port if you want default (localhost) or you can edit IP and port to your needs
 ```bash
