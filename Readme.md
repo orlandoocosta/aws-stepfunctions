@@ -17,15 +17,15 @@ docker run -p 8083:8083 amazon/aws-stepfunctions-local
 
 - Create state machine
 ```bash
-aws stepfunctions create-state-machine --endpoint http://localhost:8083 --definition file://StateMachine.json --name "LocalWorkflowStepFunctions" --role-arn "arn:aws:iam::012345678901:role/DummyRole"
+aws stepfunctions create-state-machine --endpoint http://localhost:8083 --definition file://L001_workflow.asl.json --name "L001StepFunction" --role-arn "arn:aws:iam::012345678901:role/DummyRole"
 ```
 
 - invoke Step Function execution
 ```bash
-aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine arn:aws:states:us-east-1:123456789012:stateMachine:LocalWorkflowStepFunctions --name test
+aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine arn:aws:states:us-east-1:123456789012:stateMachine:L001StepFunction --name test
 ```
 
 - Execute the describe execution command to see the full details of the execution
 ```bash
-aws stepfunctions --endpoint http://localhost:8083 describe-execution --execution-arn arn:aws:states:us-east-1:123456789012:execution:LocalWorkflowStepFunctions:test
+aws stepfunctions --endpoint http://localhost:8083 describe-execution --execution-arn arn:aws:states:us-east-1:123456789012:execution:L001StepFunction:test
 ``` 
