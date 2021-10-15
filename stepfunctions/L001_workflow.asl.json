@@ -1,0 +1,17 @@
+{
+    "Comment": "A Step functions workflow example",
+    "StartAt": "Pass",
+    "States": {
+        "Pass": {
+            "Comment": "A Pass state passes its input to its output, without performing work. Pass states are useful when constructing and debugging state machines.",
+            "Type": "Pass",
+            "Next": "Invoke Lambda function"
+        },
+        "Invoke Lambda function": {
+            "Type": "Task",
+            "InputPath": "$",
+            "Resource": "arn:aws:lambda:eu-west-1:123456789012:function:EmailFunction",
+            "End": true
+        }
+    }
+}

@@ -1,0 +1,5 @@
+{
+  "stateMachineArn": "arn:aws:states:us-east-1:123456789012:stateMachine:L001StepFunction",
+  "name": "stateMachine:L001StepFunction",
+  "input": "{\"orderNumber\": \"12345\",\"target\": \"DISTRIBUTOR\",\"emailConfiguration\": {}}"
+}

@@ -14,18 +14,19 @@ let response;
  */
 exports.lambdaHandler = async (event, context) => {
   try {
-    // console.log("order number " + event.requestContext.orderNumber);
-    // console.log(" Send email for " + event.requestContext.target);
-    // console.log(
-    //   " With config " + JSON.stringify(event.requestContext.emailConfiguration)
-    // );
-    // response =
-    //   "order number " +
-    //   event.requestContext.orderNumber +
-    //   " Send email for " +
-    //   event.requestContext.target +
-    //   " With config " +
-    //   JSON.stringify(event.requestContext.emailConfiguration);
+    console.log("order number " + event.requestContext.orderNumber);
+    console.log(" Send email for " + event.requestContext.target);
+    console.log(
+      " With config " + JSON.stringify(event.requestContext.emailConfiguration)
+    );
+
+    response =
+      "order number " +
+      event.requestContext.orderNumber +
+      " Send email for " +
+      event.requestContext.target +
+      " With config " +
+      JSON.stringify(event.requestContext.emailConfiguration);
   } catch (err) {
     console.log(err);
     return err;
