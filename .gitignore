@@ -126,7 +126,7 @@ $RECYCLE.BIN/
 *.lnk
 
 .aws-sam
-.vscode/*
+.vscode
 # Local History for Visual Studio Code
 .history/
 
