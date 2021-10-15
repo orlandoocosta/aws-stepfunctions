@@ -19,6 +19,7 @@ exports.lambdaHandler = async (event, context) => {
     // console.log(
     //   " With config " + JSON.stringify(event.requestContext.emailConfiguration)
     // );
+
     // response =
     //   "order number " +
     //   event.requestContext.orderNumber +
@@ -26,6 +27,8 @@ exports.lambdaHandler = async (event, context) => {
     //   event.requestContext.target +
     //   " With config " +
     //   JSON.stringify(event.requestContext.emailConfiguration);
+
+    response = "DONE";
   } catch (err) {
     console.log(err);
     return err;
