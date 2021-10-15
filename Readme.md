@@ -11,7 +11,7 @@
 
 
 
-### Run Step Function
+### Run Step Functions
 
 - Start the local Lambda endpoint // you can skip the host and port if you want default (localhost) or you can edit IP and port to your needs
 ```bash
