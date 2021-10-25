@@ -34,12 +34,12 @@ aws stepfunctions create-state-machine --endpoint http://localhost:8083 --defini
 
 - invoke Step Function execution
 ```bash
-aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine <stepFunctionArn> --name test
+aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine <stepFunctionArn> --name <TEST_NAME>
 ```
 
 - Execute the describe execution command to see the full details of the execution
 ```bash
-aws stepfunctions --endpoint http://localhost:8083 describe-execution --execution-arn <stepFunctionArn>:test
+aws stepfunctions --endpoint http://localhost:8083 describe-execution --execution-arn arn:aws:states:<REGION>:123456789012:execution:<STEP_FUNCTION_NAME>:<TEST_NAME>
 ``` 
 
 ### Execute Step Function with an event
