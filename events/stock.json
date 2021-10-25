@@ -1,5 +1,5 @@
 {
   "stateMachineArn": "arn:aws:states:eu-west-1:123456789012:stateMachine:DemoStepFunction",
-  "name": "stateMachine:DemoStepFunction",
-  "input": "{\"sku\": \"12345\"}"
+  "name": "DemoStepFunction",
+  "input": "{\"id\": \"12345\"}"
 }

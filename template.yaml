@@ -11,23 +11,34 @@ Globals:
     Timeout: 3
 
 Resources:
+  StockFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: functions/stock-function/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
   EmailFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: functions/email-function/
       Handler: app.lambdaHandler
       Runtime: nodejs14.x
-      Environment:
-        Variables:
-          AWS_SESSION_TOKEN: ""
-  
+  PlaceOrderFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: functions/placeOrder-function/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+    
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   EmailFunction:
-    Description: "API Gateway endpoint URL for Email function"
     Value: !GetAtt EmailFunction.Arn
-
+  StockFunction:
+    Value: !GetAtt StockFunction.Arn
+  PlaceOrderFunction:
+    Value: !GetAtt PlaceOrderFunction.Arn
     
   

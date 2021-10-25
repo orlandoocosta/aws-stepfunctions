@@ -11,9 +11,16 @@
  *
  */
 exports.lambdaHandler = async (event, context) => {
+  let type;
   try {
-    console.log("Email for order id " + event.id + " sent to " + event.target);
-    return {distributorNotification : "Success"};
+    if (event.id == "67890") {
+      type = "VIDEO_GAMES";
+    }else{
+    type = "CLOTHES"}
+
+    console.log("Order " + event.id + " created with type " + type);
+    return { 'status':  'CREATED', 'type': "CLOTHES"};
+    
   } catch (err) {
     console.log(err);
     return err;
