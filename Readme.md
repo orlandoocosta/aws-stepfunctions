@@ -3,6 +3,7 @@
 - AWS CLI
 - AWS SAM CLI
 - AWS Toolkit for VS Code
+- Docker
 
 ### Start the project
 
