@@ -19,7 +19,7 @@ exports.lambdaHandler = async (event, context) => {
     type = "CLOTHES"}
 
     console.log("Order " + event.id + " created with type " + type);
-    return { 'status':  'CREATED', 'type': "CLOTHES"};
+    return { status: "CREATED", type: type };
     
   } catch (err) {
     console.log(err);

@@ -45,14 +45,14 @@
       "Parameters": {
         "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
         "Payload": {
-          "orderNumber": "$.id",
+          "id.$": "$.id",
           "target": "DISTRIBUTOR"
         }
       },
       "ResultSelector": {
         "distributor.$": "$.Payload.result"
       },
-      "ResultPath": "$.results.notifications",
+      "ResultPath": "$.results.notifications.distributor",
       "Next": "Place order"
     },
     "Place order": {
@@ -60,9 +60,7 @@
       "Resource": "arn:aws:states:::lambda:invoke",
       "Parameters": {
         "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:PlaceOrderFunction",
-        "Payload": {
-          "Input.$": "$"
-        }
+        "Payload.$": "$"
       },
       "ResultSelector": {
         "type.$": "$.Payload.type",
@@ -102,14 +100,14 @@
               "Parameters": {
                 "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
                 "Payload": {
-                  "orderNumber": "$.id",
+                  "id.$": "$.id",
                   "target": "CUSTOMER_CONFIRMATION"
                 }
               },
               "ResultSelector": {
                 "customer.confirmation.$": "$.Payload.result"
               },
-              "ResultPath": "$.results.notifications",
+              "ResultPath": "$",
               "End": true
             }
           }
@@ -123,19 +121,20 @@
               "Parameters": {
                 "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
                 "Payload": {
-                  "orderNumber": "$.id",
+                  "id.$": "$.id",
                   "target": "CUSTOMER_TRACKER"
                 }
               },
               "ResultSelector": {
                 "customer.tracker.$": "$.Payload.result"
               },
-              "ResultPath": "$.results.notifications",
+              "ResultPath": "$",
               "End": true
             }
           }
         }
       ],
+      "ResultPath":"$.results.notifications.customer",
       "Next": "Update order status"
     },
     "Starting customer notifications for video games": {
@@ -148,7 +147,7 @@
       "Parameters": {
         "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
         "Payload": {
-          "orderNumber": "$.id",
+          "id.$": "$.id",
           "target": "CUSTOMER_CONFIRMATION"
         }
       },
@@ -164,7 +163,7 @@
       "Parameters": {
         "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
         "Payload": {
-          "orderNumber": "$.id",
+          "id.$": "$.id",
           "target": "CUSTOMER_KEY"
         }
       },
@@ -176,8 +175,18 @@
 
     },
     "Update order status": {
-      "Type": "Pass",
-      "ResultPath": "$",
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:UpdateOrderFunction",
+        "Payload": {
+          "id.$": "$.id"
+        }
+      },
+      "ResultSelector": {
+        "status.$": "$.Payload.status"
+      },
+      "ResultPath": "$.results.order",
       "End": true
     }
   }
