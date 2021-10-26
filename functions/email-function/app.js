@@ -13,7 +13,7 @@
 exports.lambdaHandler = async (event, context) => {
   try {
     console.log("Email for order id " + event.id + " sent to " + event.target);
-    return {distributorNotification : "Success"};
+    return {result : "Success"};
   } catch (err) {
     console.log(err);
     return err;

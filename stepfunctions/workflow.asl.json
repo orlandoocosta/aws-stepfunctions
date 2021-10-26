@@ -16,7 +16,7 @@
       "ResultSelector": {
         "hasStock.$": "$.Payload.stock"
       },
-      "ResultPath":"$.results.stock", 
+      "ResultPath": "$.results.stock",
       "Next": "Confirm stock result"
     },
     "Confirm stock result": {
@@ -46,13 +46,13 @@
         "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
         "Payload": {
           "orderNumber": "$.id",
-          "target":"DISTRIBUTOR"
+          "target": "DISTRIBUTOR"
         }
       },
       "ResultSelector": {
-        "distributor.$": "$.Payload.distributorNotification"
+        "distributor.$": "$.Payload.result"
       },
-      "ResultPath": "$.results.notificaitons",
+      "ResultPath": "$.results.notifications",
       "Next": "Place order"
     },
     "Place order": {
@@ -87,8 +87,8 @@
       ]
     },
     "Starting customer notifications for clothes": {
-        "Type": "Pass",
-        "Next": "Notify customer for an order with Clothes"
+      "Type": "Pass",
+      "Next": "Notify customer for an order with Clothes"
     },
     "Notify customer for an order with Clothes": {
       "Type": "Parallel",
@@ -97,24 +97,40 @@
           "StartAt": "Send confirmation email",
           "States": {
             "Send confirmation email": {
-              "Type": "Pass",
-              "Next": "Log email event"
-            },
-            "Log email event": {
-              "Type": "Pass",
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
+                "Payload": {
+                  "orderNumber": "$.id",
+                  "target": "CUSTOMER_CONFIRMATION"
+                }
+              },
+              "ResultSelector": {
+                "customer.confirmation.$": "$.Payload.result"
+              },
+              "ResultPath": "$.results.notifications",
               "End": true
             }
           }
         },
         {
-          "StartAt": "Send SMS with order tracker",
+          "StartAt": "Send Email with order tracker",
           "States": {
-            "Send SMS with order tracker": {
-              "Type": "Pass",
-              "Next": "Log SMS event"
-            },
-            "Log SMS event": {
-              "Type": "Pass",
+            "Send Email with order tracker": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
+                "Payload": {
+                  "orderNumber": "$.id",
+                  "target": "CUSTOMER_TRACKER"
+                }
+              },
+              "ResultSelector": {
+                "customer.tracker.$": "$.Payload.result"
+              },
+              "ResultPath": "$.results.notifications",
               "End": true
             }
           }
@@ -123,25 +139,42 @@
       "Next": "Update order status"
     },
     "Starting customer notifications for video games": {
-        "Type": "Pass",
-        "Next": "Send video game order confirmation email"
+      "Type": "Pass",
+      "Next": "Send video game order confirmation email"
     },
     "Send video game order confirmation email": {
-      "Type": "Pass",
-      "Next": "Log video game order confirmation email event"
-    },
-    "Log video game order confirmation email event": {
-        "Type": "Pass",
-        "Next": "Send video game key email"
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
+        "Payload": {
+          "orderNumber": "$.id",
+          "target": "CUSTOMER_CONFIRMATION"
+        }
       },
+      "ResultSelector": {
+        "customer.confirmation.$": "$.Payload.result"
+      },
+      "ResultPath": "$.results.notifications",
+      "Next": "Send video game key email"
+    },
     "Send video game key email": {
-        "Type": "Pass",
-        "Next": "Log video game key email event"
-    },
-    "Log video game key email event": {
-        "Type": "Pass",
-        "Next": "Update order status"
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
+        "Payload": {
+          "orderNumber": "$.id",
+          "target": "CUSTOMER_KEY"
+        }
       },
+      "ResultSelector": {
+        "customer.key.$": "$.Payload.result"
+      },
+      "ResultPath": "$.results.notifications",
+      "Next": "Update order status"
+
+    },
     "Update order status": {
       "Type": "Pass",
       "ResultPath": "$",
