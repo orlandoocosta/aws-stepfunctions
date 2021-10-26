@@ -20,14 +20,14 @@
 sam local start-lambda
 ```
 
-- Start docker container for local Step Functions, on first execution it should automatically pull the needed docker image // make sure you edit localsettings.txt to suit your needs (IP)
+- Start docker container for local Step Functions, on first execution it should automatically pull the needed docker image
 ```bash
 docker run -p 8083:8083 --env-file docker/aws-stepfunctions-local-credentials.txt amazon/aws-stepfunctions-local
 ``` 
 
 - Create state machine
 ```bash
-aws stepfunctions create-state-machine --endpoint http://localhost:8083 --definition file://StateMachine.json --name "HelloFromLocalStepFunctions" --role-arn "arn:aws:iam::012345678901:role/DummyRole"
+aws stepfunctions create-state-machine --endpoint http://localhost:8083 --definition file://stepfunctions/L001_workflow.asl.json --name "L001StepFunction" --role-arn "arn:aws:iam::012345678901:role/DummyRole"
 ```
 
 - save the Step Function arn
