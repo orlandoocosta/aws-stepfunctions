@@ -12,6 +12,8 @@
 
 - Create a new file like where it's needed to define `LAMBDA_ENDPOINT=http://host.docker.internal:3001`(eg: aws-stepfunctions-local-credentials.txt) This is needed to run the `docker amazon/aws-stepfunctions-local command`
 
+- It's needed to add each lambda function to the template.yaml file 
+
 
 ### Run Step Functions
 
