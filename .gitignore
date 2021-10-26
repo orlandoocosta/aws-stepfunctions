@@ -125,5 +125,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+.aws-sam
+.vscode
+# Local History for Visual Studio Code
+.history/
 
 # End of https://www.gitignore.io/api/osx,node,linux,windows

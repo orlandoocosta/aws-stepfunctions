@@ -12,8 +12,18 @@
  */
 exports.lambdaHandler = async (event, context) => {
   try {
-    console.log("Email for order id " + event.id + " sent to " + event.target);
-    return {result : "Success"};
+    let stock;
+
+    if (event.id == "09876") {
+      console.log("order " + event.id + " without stock");
+      stock = false;
+    } else {
+      stock = true;
+    }
+
+    console.log("order " + event.id + " with stock");
+    return { stock: stock };
+    
   } catch (err) {
     console.log(err);
     return err;

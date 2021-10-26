@@ -1,0 +1,193 @@
+{
+  "Comment": "A Step functions workflow example",
+  "StartAt": "Start place order process",
+  "States": {
+    "Start place order process": {
+      "Type": "Pass",
+      "Next": "Check order stock"
+    },
+    "Check order stock": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:StockFunction",
+        "Payload.$": "$"
+      },
+      "ResultSelector": {
+        "hasStock.$": "$.Payload.stock"
+      },
+      "ResultPath": "$.results.stock",
+      "Next": "Confirm stock result"
+    },
+    "Confirm stock result": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.results.stock.hasStock",
+          "BooleanEquals": true,
+          "Next": "Notify Distributor"
+        },
+        {
+          "Variable": "$.results.stock",
+          "BooleanEquals": false,
+          "Next": "Stock not available"
+        }
+      ]
+    },
+    "Stock not available": {
+      "Type": "Fail",
+      "Cause": "Order without stock",
+      "Error": "NoStockError"
+    },
+    "Notify Distributor": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
+        "Payload": {
+          "id.$": "$.id",
+          "target": "DISTRIBUTOR"
+        }
+      },
+      "ResultSelector": {
+        "distributor.$": "$.Payload.result"
+      },
+      "ResultPath": "$.results.notifications.distributor",
+      "Next": "Place order"
+    },
+    "Place order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:PlaceOrderFunction",
+        "Payload.$": "$"
+      },
+      "ResultSelector": {
+        "type.$": "$.Payload.type",
+        "status.$": "$.Payload.status"
+      },
+      "ResultPath": "$.results.order",
+      "Next": "Notify Customer"
+    },
+    "Notify Customer": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.results.order.type",
+          "StringEquals": "CLOTHES",
+          "Next": "Starting customer notifications for clothes"
+        },
+        {
+          "Variable": "$.results.order.type",
+          "StringEquals": "VIDEO_GAMES",
+          "Next": "Starting customer notifications for video games"
+        }
+      ]
+    },
+    "Starting customer notifications for clothes": {
+      "Type": "Pass",
+      "Next": "Notify customer for an order with Clothes"
+    },
+    "Notify customer for an order with Clothes": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "Send confirmation email",
+          "States": {
+            "Send confirmation email": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
+                "Payload": {
+                  "id.$": "$.id",
+                  "target": "CUSTOMER_CONFIRMATION"
+                }
+              },
+              "ResultSelector": {
+                "customer.confirmation.$": "$.Payload.result"
+              },
+              "ResultPath": "$",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "Send Email with order tracker",
+          "States": {
+            "Send Email with order tracker": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
+                "Payload": {
+                  "id.$": "$.id",
+                  "target": "CUSTOMER_TRACKER"
+                }
+              },
+              "ResultSelector": {
+                "customer.tracker.$": "$.Payload.result"
+              },
+              "ResultPath": "$",
+              "End": true
+            }
+          }
+        }
+      ],
+      "ResultPath":"$.results.notifications.customer",
+      "Next": "Update order status"
+    },
+    "Starting customer notifications for video games": {
+      "Type": "Pass",
+      "Next": "Send video game order confirmation email"
+    },
+    "Send video game order confirmation email": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
+        "Payload": {
+          "id.$": "$.id",
+          "target": "CUSTOMER_CONFIRMATION"
+        }
+      },
+      "ResultSelector": {
+        "customer.confirmation.$": "$.Payload.result"
+      },
+      "ResultPath": "$.results.notifications",
+      "Next": "Send video game key email"
+    },
+    "Send video game key email": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:EmailFunction",
+        "Payload": {
+          "id.$": "$.id",
+          "target": "CUSTOMER_KEY"
+        }
+      },
+      "ResultSelector": {
+        "customer.key.$": "$.Payload.result"
+      },
+      "ResultPath": "$.results.notifications",
+      "Next": "Update order status"
+
+    },
+    "Update order status": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-west-01:123456789012:function:UpdateOrderFunction",
+        "Payload": {
+          "id.$": "$.id"
+        }
+      },
+      "ResultSelector": {
+        "status.$": "$.Payload.status"
+      },
+      "ResultPath": "$.results.order",
+      "End": true
+    }
+  }
+}
