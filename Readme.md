@@ -1,7 +1,7 @@
 ### Prerequisites
 
-- you need AWS CLI installed
-- you need AWS SAM CLI installed
+- AWS CLI
+- AWS SAM CLI
 - AWS Toolkit for VS Code
 
 ### Start the project
@@ -12,7 +12,7 @@
 
 - Create a new file like where it's needed to define `LAMBDA_ENDPOINT=http://host.docker.internal:3001`(eg: aws-stepfunctions-local-credentials.txt) This is needed to run the `docker amazon/aws-stepfunctions-local command`
 
-- It's needed to add each lambda function to the template.yaml file 
+- Each lambda function need to the define in the template.yaml file 
 
 
 ### Run Step Functions
@@ -32,9 +32,7 @@ docker run -p 8083:8083 --env-file docker/aws-stepfunctions-local-credentials.tx
 aws stepfunctions create-state-machine --endpoint http://localhost:8083 --definition file://stepfunctions/L001_workflow.asl.json --name "L001StepFunction" --role-arn "arn:aws:iam::012345678901:role/DummyRole"
 ```
 
-- save the Step Function arn
-
-- invoke Step Function execution
+- Invoke Step Function execution
 ```bash
 aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine <stepFunctionArn> --name <TEST_NAME>
 ```
