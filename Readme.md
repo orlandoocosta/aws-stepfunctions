@@ -9,7 +9,7 @@
 
 - From the AWS Toolkit select `Create Lambda SAM Applicaiton`. It's going to generate a dummy lambda function anda a template.yaml where the function is define.
 
-- Create a new file with the Step Funciton worflow. To call the lambda function the arn will be like `arn:aws:lambda:<region>:123456789012:<function_name>`
+- Create a new file with the Step Funciton worflow. To create a lambda task, use the following arn `arn:aws:lambda:<region>:123456789012:<function_name>`
 
 - Create a new file like where it's needed to define `LAMBDA_ENDPOINT=http://host.docker.internal:3001`(eg: aws-stepfunctions-local-credentials.txt) This is needed to run the `docker amazon/aws-stepfunctions-local command`
 
