@@ -13,7 +13,7 @@
 
 - Create a new file like where it's needed to define `LAMBDA_ENDPOINT=http://host.docker.internal:3001`(eg: aws-stepfunctions-local-credentials.txt) This is needed to run the `docker amazon/aws-stepfunctions-local command`
 
-- Each lambda function need to the define in the template.yaml file 
+- Each lambda function need to the define in the `template.yaml` file 
 
 
 ### Run Step Functions
@@ -50,7 +50,7 @@ aws stepfunctions --endpoint http://localhost:8083 describe-execution --executio
 aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine arn:aws:states:<REGION>:123456789012:stateMachine:<STEP_FUNCTION_ARN> --generate-cli-skeleton input > <EVENT_FILENAME>.json
 ```
 
-- Edit the <EVENT_FILENAME> and add the json event as a string in the input object (eg: `"input": "{\"orderNumber\": \"12345\",\"target\": \"DISTRIBUTOR\",\"emailConfiguration\": {}}"`)
+- Edit the `<EVENT_FILENAME>` and add the json event as a string in the input object (eg: `"input": "{\"orderNumber\": \"12345\",\"target\": \"DISTRIBUTOR\",\"emailConfiguration\": {}}"`)
 
 - Run the step function wiht the event
 ```bash
