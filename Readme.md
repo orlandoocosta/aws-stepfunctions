@@ -27,14 +27,14 @@ docker run -p 8083:8083 --env-file docker/aws-stepfunctions-local-credentials.tx
 
 - Create state machine
 ```bash
-aws stepfunctions create-state-machine --endpoint http://localhost:8083 --definition file://stepfunctions/L001_workflow.asl.json --name "L001StepFunction" --role-arn "arn:aws:iam::012345678901:role/DummyRole"
+aws stepfunctions create-state-machine --endpoint http://localhost:8083 --definition file://<STEP_FUNCTION_NAME>.asl.json --name "<STEP_FUNCTION_NAME>" --role-arn "arn:aws:iam::012345678901:role/DummyRole"
 ```
 
 - save the Step Function arn
 
 - invoke Step Function execution
 ```bash
-aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine <stepFunctionArn> --name <TEST_NAME>
+aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine <STEP_FUNCTION_ARN> --name <TEST_NAME>
 ```
 
 - Execute the describe execution command to see the full details of the execution
@@ -46,12 +46,12 @@ aws stepfunctions --endpoint http://localhost:8083 describe-execution --executio
 
 - Generate event file
 ```bash
-aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine arn:aws:states:eu-west-1:123456789012:stateMachine:L001StepFunction --generate-cli-skeleton input > <event_fileName>.json
+aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine arn:aws:states:<REGION>:123456789012:stateMachine:<STEP_FUNCTION_ARN> --generate-cli-skeleton input > <EVENT_FILENAME>.json
 ```
 
-- Edit the <event_filename> and add the json event as a string in the input object (eg: `"input": "{\"orderNumber\": \"12345\",\"target\": \"DISTRIBUTOR\",\"emailConfiguration\": {}}"`)
+- Edit the <EVENT_FILENAME> and add the json event as a string in the input object (eg: `"input": "{\"orderNumber\": \"12345\",\"target\": \"DISTRIBUTOR\",\"emailConfiguration\": {}}"`)
 
 - Run the step function wiht the event
 ```bash
-aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine <stepFunctionArn> --name test --cli-input-json file://<event_filename>.json
+aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine <STEP_FUNCTION_ARN> --name test --cli-input-json file://<EVENT_FILENAME>.json
 ```
