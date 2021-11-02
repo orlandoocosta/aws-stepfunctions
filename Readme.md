@@ -7,7 +7,7 @@
 
 ### Start the project
 
-- From the AWS Toolkit select `Create Lambda SAM Applicaiton`. It's going to generate a dummy lambda function anda a template.yaml where the function is define.
+- From the AWS Toolkit select `Create Lambda SAM Applicaiton`. It's going to generate a dummy lambda function and a template.yaml file where the function is defined.
 
 - Create a new file with the Step Funciton worflow. To create a lambda task, use the following arn `arn:aws:lambda:<region>:123456789012:<function_name>`
 
