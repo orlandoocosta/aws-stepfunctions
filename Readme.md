@@ -11,7 +11,7 @@
 
 - Create a new file with the Step Funciton worflow. To create a lambda task, use the following arn `arn:aws:lambda:<region>:123456789012:<function_name>`
 
-- Create a new file like where it's needed to define `LAMBDA_ENDPOINT=http://host.docker.internal:3001`(eg: aws-stepfunctions-local-credentials.txt) This is needed to run the `docker amazon/aws-stepfunctions-local command`
+- Create a new file where it's needed to define `LAMBDA_ENDPOINT=http://host.docker.internal:3001`(eg: aws-stepfunctions-local-credentials.txt). This is needed to run the `docker amazon/aws-stepfunctions-local command`
 
 - Each lambda function need to the define in the `template.yaml` file 
 
